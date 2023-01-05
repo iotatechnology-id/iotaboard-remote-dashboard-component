@@ -11,6 +11,7 @@
     "build:dev": "npm run clean && cross-env NODE_ENV=development webpack --mode development",
     "webpack-dev-server": "cross-env NODE_ENV=development webpack serve --port 9090 --config webpack-dev-server.config.js",
     "start": "concurrently -n webpack,webpack-dev-server -c green,cyan \"npm run build:dev -- --watch\" \"npm run webpack-dev-server\"",
+    "start:remote": "concurrently \"npm run build -- --watch\" \"serve dist --cors -p 9999\"",
     "clean": "rimraf dist",
     "cz": "git-cz",
     "test": "echo no tests",
@@ -19,6 +20,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@ionic/react": "^6.4.1",
     "chartjs": "^0.3.24",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.1.0"
