@@ -30,7 +30,12 @@ module.exports = {
       }
     ]
   },
+  devtool: "source-map",
   resolve: {
+    fallback: {
+      'http': false,
+      'https': false
+    },
     alias: {
       "remote-component.config.js": path.resolve("./remote-component.config.js")
     }

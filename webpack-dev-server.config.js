@@ -14,13 +14,17 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       "process.env.NODE_ENV": process.env.NODE_ENV
     }),
-    new webpack.NamedModulesPlugin(),
+    // new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
+  optimization: {
+    moduleIds: "named"
+  },
   module: config[0].module,
   devServer: {
     hot: true,
-    contentBase: __dirname,
+    open: true,
+    static: __dirname,
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
@@ -31,6 +35,10 @@ module.exports = {
   resolve: {
     alias: {
       "remote-component.config.js": path.resolve("./remote-component.config.js")
+    },
+    fallback: {
+      "http": false,
+      "https": false
     }
   }
 };

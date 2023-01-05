@@ -36,6 +36,13 @@ module.exports = {
     ...externals,
     "remote-component.config.js": "remote-component.config.js"
   },
+  devtool: 'source-map',
+  resolve: {
+    fallback: {
+      "http": false,
+      "https": false
+    },
+  },
   module: {
     rules: [
       {
