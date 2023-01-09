@@ -17,7 +17,7 @@ module.exports = {
     })
   ],
   entry: {
-    demo: "./src/webpack-dev-server.js"
+    demo: "./src/webpack-dev-server.tsx"
   },
   module: {
     rules: [
@@ -29,6 +29,11 @@ module.exports = {
         }
       },
       {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: ["ts-loader"],
+      },
+      {
         test: /\.(css)$/,
         use: ['style-loader', 'css-loader'],
       }
@@ -36,6 +41,7 @@ module.exports = {
   },
   devtool: "source-map",
   resolve: {
+    extensions: [".tsx", ".ts", ".js"],
     fallback: {
       'http': false,
       'https': false

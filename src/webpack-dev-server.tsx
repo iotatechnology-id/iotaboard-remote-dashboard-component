@@ -5,7 +5,7 @@
 import { RemoteComponent } from "@paciolan/remote-component";
 import React from "react";
 import ReactDOM from "react-dom";
-import LocalComponent from "./index.js";
+import LocalComponent from "./index";
 
 import { IonApp, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, setupIonicReact } from '@ionic/react';
 
@@ -34,10 +34,10 @@ const url =
 
 const node = document.getElementById("app");
 
-const Component = props =>
+const Component = (props: any) =>
   process.env.NODE_ENV === "development"
     ? <LocalComponent {...props} />
-    : <RemoteComponent url={url} {...props} />; // prettier-ignore
+    : <RemoteComponent url={url} {...props} />;
 
 setupIonicReact();
 

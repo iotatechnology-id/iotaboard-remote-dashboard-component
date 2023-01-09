@@ -4,7 +4,11 @@ import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const Title = ({ children }) => <div>
+export interface TitleProps {
+    children: React.ReactNode
+}
+
+export const Title: React.FC<TitleProps> = ({ children }) => <div>
     <h1>{children}</h1>
     <Doughnut data={{
         datasets: [

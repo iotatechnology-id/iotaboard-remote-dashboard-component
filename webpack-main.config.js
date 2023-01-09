@@ -27,7 +27,7 @@ module.exports = {
     new WebpackAssetsManifest()
   ],
   entry: {
-    main: "./src/index.js"
+    main: "./src/index.tsx"
   },
   output: {
     libraryTarget: "commonjs"
@@ -38,6 +38,7 @@ module.exports = {
   },
   devtool: 'source-map',
   resolve: {
+    extensions: [".tsx", ".ts", ".js"],
     fallback: {
       "http": false,
       "https": false
@@ -51,6 +52,11 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: ["ts-loader"],
       },
       {
         test: /\.(css)$/,
