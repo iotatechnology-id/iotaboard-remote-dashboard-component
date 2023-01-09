@@ -36,13 +36,13 @@ module.exports = {
     ...externals,
     "remote-component.config.js": "remote-component.config.js"
   },
-  devtool: 'source-map',
+  devtool: "source-map",
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
     fallback: {
-      "http": false,
-      "https": false
-    },
+      http: false,
+      https: false
+    }
   },
   module: {
     rules: [
@@ -56,11 +56,11 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: ["ts-loader"],
+        use: ["ts-loader"]
       },
       {
         test: /\.(css)$/,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"]
       }
     ]
   }

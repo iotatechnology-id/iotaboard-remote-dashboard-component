@@ -38,8 +38,8 @@ module.exports = {
       "remote-component.config.js": path.resolve("./remote-component.config.js")
     },
     fallback: {
-      "http": false,
-      "https": false
+      http: false,
+      https: false
     }
   }
 };

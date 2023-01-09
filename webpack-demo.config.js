@@ -31,11 +31,11 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: ["ts-loader"],
+        use: ["ts-loader"]
       },
       {
         test: /\.(css)$/,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"]
       }
     ]
   },
@@ -43,8 +43,8 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
     fallback: {
-      'http': false,
-      'https': false
+      http: false,
+      https: false
     },
     alias: {
       "remote-component.config.js": path.resolve("./remote-component.config.js")
