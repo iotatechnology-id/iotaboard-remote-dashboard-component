@@ -13,7 +13,6 @@
     "start": "concurrently -n webpack,webpack-dev-server -c green,cyan \"npm run build:dev -- --watch\" \"npm run webpack-dev-server\"",
     "start:remote": "concurrently \"npm run build -- --watch\" \"serve dist --cors -p 9999\"",
     "clean": "rimraf dist",
-    "cz": "git-cz",
     "test": "echo no tests",
     "test:changed": "npm run test -- --changedSince HEAD",
     "test:coverage": "npm run test -- --coverage",
@@ -77,11 +76,6 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "npm run lint && npm run build && npm run test:changed",
       "pre-push": "npm run test:coverage"
-    }
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/git-cz"
     }
   }
 }
