@@ -5,39 +5,57 @@
 import { RemoteComponent } from "@paciolan/remote-component";
 import React from "react";
 import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import LocalComponent from "./index";
 
-import { IonApp, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, setupIonicReact } from '@ionic/react';
+/**
+ * This is designed for use with Ionic project.
+ * It imports Ionic modules and styles to simulate more accurate look in Ionic apps
+ */
+
+import {
+  IonApp,
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  setupIonicReact
+} from "@ionic/react";
 
 /* Core CSS required for Ionic components to work properly */
-import '@ionic/react/css/core.css';
+import "@ionic/react/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
+import "@ionic/react/css/normalize.css";
+import "@ionic/react/css/structure.css";
+import "@ionic/react/css/typography.css";
 
 /* Optional CSS utils that can be commented out */
-import '@ionic/react/css/padding.css';
-import '@ionic/react/css/float-elements.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/text-transformation.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/display.css';
+import "@ionic/react/css/padding.css";
+import "@ionic/react/css/float-elements.css";
+import "@ionic/react/css/text-alignment.css";
+import "@ionic/react/css/text-transformation.css";
+import "@ionic/react/css/flex-utils.css";
+import "@ionic/react/css/display.css";
 
 /* Theme variables */
-import './theme/variables.css';
+import "./theme/variables.css";
 
 // different paths for localhost vs s3
 const url =
   process.env.NODE_ENV === "development" ? "/dist/main.js" : "main.js";
 
-const node = document.getElementById("app");
+const rootNode = document.getElementById("app");
+const root = createRoot(rootNode!);
 
+// TODO: specify props type definition for type safety
 const Component = (props: any) =>
-  process.env.NODE_ENV === "development"
-    ? <LocalComponent {...props} />
-    : <RemoteComponent url={url} {...props} />;
+  process.env.NODE_ENV === "development" ? (
+    <LocalComponent {...props} />
+  ) : (
+    <RemoteComponent url={url} {...props} />
+  );
 
 setupIonicReact();
 
@@ -46,19 +64,20 @@ const App = () => (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Remote Component</IonTitle>
+          <IonTitle>Iotaboard Remote Dashboard</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Remote Component</IonTitle>
+            <IonTitle size="large">Iotaboard Remote Dashboard</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <Component name="Webpack" />
+        {/* TODO: Pass in props for the remote component */}
+        <Component name="Iotaboard" />
       </IonContent>
     </IonPage>
   </IonApp>
 );
 
-ReactDOM.render(<App />, node);
+root.render(<App />);
