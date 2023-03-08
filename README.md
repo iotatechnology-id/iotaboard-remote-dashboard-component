@@ -1,25 +1,18 @@
-# Remote Component Starter Kit
+# Iotaboard Remote Dashboard
 
 ![Starter Kit](https://raw.githubusercontent.com/Paciolan/remote-component-starter/master/media/icon-small.png)
 
-Starter Kit for quickly creating a Remote React Component that can be Remotely Loaded by `@paciolan/remote-component`.
+Starter Kit for quickly creating an Iotaboard Remote Dashboard React Component that can be Remotely Loaded by `@paciolan/remote-component`.
 
 ## Getting Started
 
-Clone the repository and initialize your project
+Create a new repository from this repository and add as submodule to 
+`dashboard-modules` directory in Iotaboard Frontend repo.
 
+Replace `your-generated-repo-url` with real url.
 ```bash
-# create new repo
-mkdir my-component
-cd my-component
-git init
-
-# pull the remote component starter kit
-git pull https://github.com/Paciolan/remote-component-starter.git --depth=1
-git commit --amend -m "chore: 🛠️ pull remote-component-starter"
-
-# install dependencies
-npm ci
+cd dashboard-modules
+git submodule add your-generated-repo-url
 ```
 
 Modify `package.json` and replace the starter kit values with your own.
@@ -33,8 +26,8 @@ Modify `package.json` and replace the starter kit values with your own.
 
 There are a few important files, one set is used for the bundle, another set for local development.
 
-- `src/index.js` - Entrypoint of the Remote Component. The component needs to be the `default` export.
-- `src/webpack-dev-server.js` - Entrypoint for `webpack-dev-server`. This is only used for development and will not be included in the final bundle.
+- `src/index.tsx` - Entrypoint of the Remote Component. The component needs to be the `default` export.
+- `src/webpack-dev-server.tsx` - Entrypoint for `webpack-dev-server`. This is only used for development and will not be included in the final bundle.
 - `src/index.html` - HTML for `webpack-dev-server`. This is only used for development and will not be included in the final bundle.
 
 ## Building
@@ -103,18 +96,6 @@ module.exports = {
     "prop-types": "prop-types"
   }
 };
-```
-
-## Commiting
-
-Commits are added to the repository with commitizen compatible `git-cz`.
-
-```bash
-# stage all changes
-git add .
-
-# run commitizen
-npm run cz
 ```
 
 ## Contributors
