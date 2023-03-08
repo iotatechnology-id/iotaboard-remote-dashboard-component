@@ -1,6 +1,6 @@
 /**
  * Entrypoint of the Remote Component.
  */
-import { App } from "./App";
+import { IotaboardDashboard } from "./IotaboardDashboard";
 
-export default App;
+export default IotaboardDashboard;
