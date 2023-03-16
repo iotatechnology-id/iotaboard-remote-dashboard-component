@@ -4,6 +4,9 @@
  */
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const ReactRefreshTypeScript = require('react-refresh-typescript');
+
 const path = require("path");
 const webpack = require("webpack");
 
@@ -14,10 +17,11 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: "./src/index.html"
-    })
+    }),
+    new ReactRefreshWebpackPlugin()
   ],
   entry: {
-    demo: "./src/webpack-dev-server.tsx"
+    demo: "./src/demo.tsx"
   },
   module: {
     rules: [
@@ -31,7 +35,17 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: ["ts-loader"]
+        use: [
+          {
+            loader: require.resolve("ts-loader"),
+            options: {
+              getCustomTransformers: () => ({
+                before: [ReactRefreshTypeScript()]
+              }),
+              transpileOnly: true
+            }
+          }
+        ]
       },
       {
         test: /\.(css)$/,
