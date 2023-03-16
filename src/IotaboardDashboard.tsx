@@ -1,24 +1,26 @@
+// React imports
 import React, { useMemo } from "react";
-import { Title } from "./components/Title";
+
+// Iotaboard imports
 import type { IotaboardClient } from "../../../src/services/iotaboard-client/iotaboard-client";
 import type { IotaboardRealtimeClient } from "../../../src/services/realtime";
 import {
   getInterops,
   GlobalWithInterop
 } from "../../../src/services/remote-dashboard-interop";
+import type RemoteDashboardProps from "../../../src/services/remote-dashboard-interop/remote-dashboard-props";
 
-// TODO: define remote component type definition
-export interface DashboardProps {
-  name: string;
-}
+// Style imports
+import "./theme/common.css";
 
-export const IotaboardDashboard: React.FC<DashboardProps> = ({
-  name = "World"
-}) => {
-  const iotaboardInterops = useMemo(
+// Components imports
+import { SampleComponent } from "./components/SampleComponent";
+
+export const IotaboardDashboard: React.FC<RemoteDashboardProps> = props => {
+  const interops = useMemo(
     () => getInterops(),
     [(global as GlobalWithInterop).iotaboardInterops]
   );
 
-  return <Title>Hello {name}!</Title>;
+  return <SampleComponent>Hello Iotaboard!</SampleComponent>;
 };
