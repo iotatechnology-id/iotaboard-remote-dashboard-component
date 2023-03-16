@@ -1,14 +1,16 @@
 import React from "react";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+import ChartJs from "chart.js/auto";
 
-export interface TitleProps {
+ChartJs.register(ArcElement, Tooltip, Legend);
+
+export interface SampleComponentProps {
     children: React.ReactNode
 }
 
-export const Title: React.FC<TitleProps> = ({ children }) => <div>
+export const SampleComponent: React.FC<SampleComponentProps> = ({ children }) => <div>
     <h1>{children}</h1>
     <Doughnut data={{
         datasets: [
