@@ -54,6 +54,7 @@ import DevelopmentEnv from "./development-env-setup";
 import {
   registerInterops
 } from "../../../src/services/remote-dashboard-interop";
+import RemoteDashboardProps from "../../../src/services/remote-dashboard-interop/remote-dashboard-props";
 
 
 // Minimal Iotaboard-like initialization
@@ -83,7 +84,7 @@ defaultIotaboardClient
       const root = createRoot(rootNode!);
 
       // TODO: specify props type definition for type safety
-      const Component = (props: any) =>
+      const Component = (props: RemoteDashboardProps) =>
         process.env.NODE_ENV === "development" ? (
           <LocalComponent {...props} />
         ) : (
@@ -106,8 +107,9 @@ defaultIotaboardClient
                   <IonTitle size="large">Iotaboard Remote Dashboard</IonTitle>
                 </IonToolbar>
               </IonHeader>
-              {/* TODO: Pass in props for the remote component */}
-              <Component name="Iotaboard" />
+              <Component
+                {...DevelopmentEnv.dashboardDetails}
+              />
             </IonContent>
           </IonPage>
         </IonApp>
@@ -116,6 +118,7 @@ defaultIotaboardClient
       root.render(<App />);
     }
     else {
+      alert("Client initialization error. See console for more details");
       console.error("Client initialization error. See console for more details")
     }
   }).catch(e => {
