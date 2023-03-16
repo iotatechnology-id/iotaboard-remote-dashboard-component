@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const config = require("./webpack.config");
 
 module.exports = {
-  entry: "./src/webpack-dev-server.tsx",
+  entry: ["./src/webpack-dev-server.tsx"],
   plugins: [
     ...config[0].plugins,
     new HtmlWebpackPlugin({
@@ -14,8 +14,6 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       "process.env.NODE_ENV": process.env.NODE_ENV
     }),
-    // new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
   ],
   optimization: {
     moduleIds: "named"
