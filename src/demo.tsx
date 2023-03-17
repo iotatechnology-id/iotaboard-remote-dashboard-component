@@ -51,11 +51,8 @@ import {
   saveConfiguration
 } from "../../../src/services/configuration";
 import DevelopmentEnv from "./development-env-setup";
-import {
-  registerInterops
-} from "../../../src/services/remote-dashboard-interop";
+import { registerInterops } from "../../../src/services/remote-dashboard-interop";
 import RemoteDashboardProps from "../../../src/services/remote-dashboard-interop/remote-dashboard-props";
-
 
 // Minimal Iotaboard-like initialization
 // Customize initiation if necessary.
@@ -107,20 +104,19 @@ defaultIotaboardClient
                   <IonTitle size="large">Iotaboard Remote Dashboard</IonTitle>
                 </IonToolbar>
               </IonHeader>
-              <Component
-                {...DevelopmentEnv.dashboardDetails}
-              />
+              <Component {...DevelopmentEnv.dashboardDetails} />
             </IonContent>
           </IonPage>
         </IonApp>
       );
 
       root.render(<App />);
+    } else {
+      throw new Error(
+        "Iotaboard client initialization failed. Please check development-env-setup.ts."
+      );
     }
-    else {
-      alert("Client initialization error. See console for more details");
-      console.error("Client initialization error. See console for more details")
-    }
-  }).catch(e => {
+  })
+  .catch(e => {
     console.error(e);
   });
