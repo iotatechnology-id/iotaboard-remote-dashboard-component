@@ -27,8 +27,10 @@ Modify `package.json` and replace the starter kit values with your own.
 There are a few important files, one set is used for the bundle, another set for local development.
 
 - `src/index.tsx` - Entrypoint of the Remote Component. The component needs to be the `default` export.
-- `src/webpack-dev-server.tsx` - Entrypoint for `webpack-dev-server`. This is only used for development and will not be included in the final bundle.
+- `src/demo.tsx` - Entrypoint for `webpack-dev-server`. This is only used for development and will not be included in the final bundle.
 - `src/index.html` - HTML for `webpack-dev-server`. This is only used for development and will not be included in the final bundle.
+- `patch.sh` - overwrite problematic `helper.segment.cjs` file from `src/patchfiles/chart.js`
+- `patch-files` directory - contains patch files to get some components working in remote-component
 
 ## Building
 
