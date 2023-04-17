@@ -4,11 +4,8 @@
  * Iotaboard-like environment for dashboard development
  */
 import { RemoteComponent } from "@paciolan/remote-component";
-import React from "react";
-import ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
 import LocalComponent from "./index";
-
 /**
  * This is designed for use with Ionic project.
  * It imports Ionic modules and styles to simulate more accurate look in Ionic apps
@@ -19,10 +16,13 @@ import {
   IonContent,
   IonHeader,
   IonPage,
+  IonRouterOutlet,
   IonTitle,
   IonToolbar,
   setupIonicReact
 } from "@ionic/react";
+
+import { IonReactRouter } from "@ionic/react-router";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -52,7 +52,14 @@ import {
 } from "../../../src/services/configuration";
 import DevelopmentEnv from "./development-env-setup";
 import { registerInterops } from "../../../src/services/remote-dashboard-interop";
+import { Route } from "react-router";
 import RemoteDashboardProps from "../../../src/services/remote-dashboard-interop/remote-dashboard-props";
+
+const rootNode = document.getElementById("app");
+
+document.addEventListener("DOMContentLoaded", () => {
+  (window as any).root = createRoot(rootNode!);
+});
 
 // Minimal Iotaboard-like initialization
 // Customize initiation if necessary.
@@ -65,52 +72,62 @@ defaultIotaboardClient
     if (result.statusCode == 200) {
       DevelopmentEnv.configuration.tokenCache = defaultIotaboardClient.token;
       defaultIotaboardRealtimeClient.initialize(DevelopmentEnv.configuration);
+      defaultIotaboardRealtimeClient
+        .startRealtimeDataSubscription()
+        .then(() => {
+          registerInterops({
+            defaultIotaboardClient: defaultIotaboardClient,
+            defaultIotaboardRealtimeClient: defaultIotaboardRealtimeClient,
+            configurationLoader: loadConfiguration,
+            configurationSaver: saveConfiguration
+          });
 
-      registerInterops({
-        defaultIotaboardClient: defaultIotaboardClient,
-        defaultIotaboardRealtimeClient: defaultIotaboardRealtimeClient,
-        configurationLoader: loadConfiguration,
-        configurationSaver: saveConfiguration
-      });
+          // different paths for localhost vs s3
+          const url =
+            process.env.NODE_ENV === "development"
+              ? "/dist/main.js"
+              : "main.js";
 
-      // different paths for localhost vs s3
-      const url =
-        process.env.NODE_ENV === "development" ? "/dist/main.js" : "main.js";
+          // TODO: specify props type definition for type safety
+          const Component = (props: RemoteDashboardProps) =>
+            process.env.NODE_ENV === "development" ? (
+              <LocalComponent {...(props as any)} />
+            ) : (
+              <RemoteComponent url={url} {...props} />
+            );
 
-      const rootNode = document.getElementById("app");
-      const root = createRoot(rootNode!);
+          setupIonicReact();
 
-      // TODO: specify props type definition for type safety
-      const Component = (props: RemoteDashboardProps) =>
-        process.env.NODE_ENV === "development" ? (
-          <LocalComponent {...props} />
-        ) : (
-          <RemoteComponent url={url} {...props} />
-        );
+          const App = () => (
+            <IonApp>
+              <IonReactRouter>
+                <IonRouterOutlet id="main">
+                  <Route exact path="/">
+                    <IonPage>
+                      <IonHeader>
+                        <IonToolbar>
+                          <IonTitle>Iotaboard Remote Dashboard</IonTitle>
+                        </IonToolbar>
+                      </IonHeader>
+                      <IonContent fullscreen>
+                        <IonHeader collapse="condense">
+                          <IonToolbar>
+                            <IonTitle size="large">
+                              Iotaboard Remote Dashboard
+                            </IonTitle>
+                          </IonToolbar>
+                        </IonHeader>
+                        <Component {...DevelopmentEnv.dashboardDetails} />
+                      </IonContent>
+                    </IonPage>
+                  </Route>
+                </IonRouterOutlet>
+              </IonReactRouter>
+            </IonApp>
+          );
 
-      setupIonicReact();
-
-      const App = () => (
-        <IonApp>
-          <IonPage>
-            <IonHeader>
-              <IonToolbar>
-                <IonTitle>Iotaboard Remote Dashboard</IonTitle>
-              </IonToolbar>
-            </IonHeader>
-            <IonContent fullscreen>
-              <IonHeader collapse="condense">
-                <IonToolbar>
-                  <IonTitle size="large">Iotaboard Remote Dashboard</IonTitle>
-                </IonToolbar>
-              </IonHeader>
-              <Component {...DevelopmentEnv.dashboardDetails} />
-            </IonContent>
-          </IonPage>
-        </IonApp>
-      );
-
-      root.render(<App />);
+          (window as any).root.render(<App />);
+        });
     } else {
       throw new Error(
         "Iotaboard client initialization failed. Please check development-env-setup.ts."
@@ -120,3 +137,7 @@ defaultIotaboardClient
   .catch(e => {
     console.error(e);
   });
+
+if ((module as any).hot) {
+  (module as any).hot.accept();
+}
