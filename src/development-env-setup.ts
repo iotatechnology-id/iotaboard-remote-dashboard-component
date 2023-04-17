@@ -1,5 +1,5 @@
-import ConfigurationModel from "../../../src/services/configuration/configuration-model";
-import { Credentials } from "../../../src/services/iotaboard-client/client-options";
+import { ConfigurationModel } from "../../../src/services/configuration/configuration-model";
+import { Credentials } from "../../../src/services/iotaboard-client/types/credentials";
 import RemoteDashboardProps from "../../../src/services/remote-dashboard-interop/remote-dashboard-props";
 
 interface DevelopmentEnvModel {
