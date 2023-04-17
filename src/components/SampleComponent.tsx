@@ -2,8 +2,9 @@ import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, _adapters, registerables } from "chart.js/auto";
 import { dateFnsAdapter } from "../patch-files/chart.js/chartjs-adapter-date-fns";
+import zoomPlugin from "chartjs-plugin-zoom";
 
-Chart.register(...registerables);
+Chart.register(...registerables, zoomPlugin);
 _adapters._date.override(dateFnsAdapter);
 
 export interface SampleComponentProps {
@@ -16,6 +17,32 @@ export const SampleComponent: React.FC<SampleComponentProps> = ({
   <div>
     <h1>{children}</h1>
     <Doughnut
+      options={{
+        plugins: {
+          legend: {
+            position: "bottom" as const
+          },
+          title: {
+            display: true,
+            text: "Sample Chart"
+          },
+          zoom: {
+            zoom: {
+              wheel: {
+                enabled: true
+              },
+              pinch: {
+                enabled: true
+              },
+              mode: "xy"
+            },
+            pan: {
+              enabled: true,
+              mode: "xy"
+            }
+          }
+        }
+      }}
       data={{
         datasets: [
           {
