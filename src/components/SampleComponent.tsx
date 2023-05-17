@@ -1,7 +1,7 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, _adapters, registerables } from "chart.js/auto";
-import { dateFnsAdapter } from "../patch-files/chart.js/chartjs-adapter-date-fns";
+import { dateFnsAdapter } from "../adapters/chartjs-adapter-date-fns";
 import zoomPlugin from "chartjs-plugin-zoom";
 
 Chart.register(...registerables, zoomPlugin);
