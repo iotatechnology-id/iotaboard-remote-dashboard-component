@@ -5,7 +5,7 @@
  */
 import { RemoteComponent } from "@paciolan/remote-component";
 import { createRoot } from "react-dom/client";
-import LocalComponent from "./index";
+import LocalComponent, { backgroundInit } from "./index";
 /**
  * This is designed for use with Ionic project.
  * It imports Ionic modules and styles to simulate more accurate look in Ionic apps
@@ -23,6 +23,7 @@ import {
 } from "@ionic/react";
 
 import { IonReactRouter } from "@ionic/react-router";
+import { createBrowserHistory } from "history";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -50,8 +51,12 @@ import {
   loadConfiguration,
   saveConfiguration
 } from "../../../src/services/configuration";
+import { defaultNotificationCenter } from "../../../src/services/notification-center/NotificationCenter";
 import DevelopmentEnv from "./development-env-setup";
-import { registerInterops } from "../../../src/services/remote-dashboard-interop";
+import {
+  RegisteredInterops,
+  registerInterops
+} from "../../../src/services/remote-dashboard-interop";
 import { Route } from "react-router";
 import RemoteDashboardProps from "../../../src/services/remote-dashboard-interop/remote-dashboard-props";
 
@@ -75,12 +80,24 @@ defaultIotaboardClient
       defaultIotaboardRealtimeClient
         .startRealtimeDataSubscription()
         .then(() => {
-          registerInterops({
+          const history = createBrowserHistory();
+          const interops: RegisteredInterops = {
             defaultIotaboardClient: defaultIotaboardClient,
             defaultIotaboardRealtimeClient: defaultIotaboardRealtimeClient,
-            configurationLoader: loadConfiguration,
-            configurationSaver: saveConfiguration
-          });
+            loadConfiguration: loadConfiguration,
+            saveConfiguration: saveConfiguration,
+            defaultNotificationCenter: defaultNotificationCenter,
+            navigationHistory: history
+          };
+          registerInterops(interops);
+
+          // Execute background operations for IoT dashboard, if any
+          if (DevelopmentEnv.dashboardDetails?.dashboardId) {
+            backgroundInit(
+              DevelopmentEnv.dashboardDetails.dashboardId,
+              interops
+            );
+          }
 
           // different paths for localhost vs s3
           const url =
@@ -89,7 +106,9 @@ defaultIotaboardClient
               : "main.js";
 
           // TODO: specify props type definition for type safety
-          const Component = (props: RemoteDashboardProps) =>
+          const Component = (
+            props: RemoteDashboardProps
+          ) =>
             process.env.NODE_ENV === "development" ? (
               <LocalComponent {...(props as any)} />
             ) : (
@@ -100,7 +119,7 @@ defaultIotaboardClient
 
           const App = () => (
             <IonApp>
-              <IonReactRouter>
+              <IonReactRouter history={history}>
                 <IonRouterOutlet id="main">
                   <Route exact path="/">
                     <IonPage>
@@ -117,7 +136,9 @@ defaultIotaboardClient
                             </IonTitle>
                           </IonToolbar>
                         </IonHeader>
-                        <Component {...DevelopmentEnv.dashboardDetails} />
+                        <Component
+                          {...DevelopmentEnv.dashboardDetails}
+                        />
                       </IonContent>
                     </IonPage>
                   </Route>
