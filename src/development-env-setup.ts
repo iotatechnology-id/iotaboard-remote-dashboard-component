@@ -5,8 +5,9 @@ import RemoteDashboardProps from "../../../src/services/remote-dashboard-interop
 interface DevelopmentEnvModel {
   credentials: Credentials;
   configuration: ConfigurationModel;
-  dashboardDetails: RemoteDashboardProps;
+  dashboardDetails?: RemoteDashboardProps;
 }
+
 export const DevelopmentEnv: DevelopmentEnvModel = {
   credentials: {
     username: "username",
@@ -20,7 +21,8 @@ export const DevelopmentEnv: DevelopmentEnvModel = {
     developerMode: true
   },
   dashboardDetails: {
-    dashboardId: "dashboard-id"
+    dashboardId: "dashboard-id", // dashboard id is needed for IoT dashboards
+    assetId: "asset-id" // asset id is needed for maintenance dashboards
   }
 };
 
