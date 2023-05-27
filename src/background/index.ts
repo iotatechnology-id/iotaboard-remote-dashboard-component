@@ -9,7 +9,9 @@ const backgroundInit: RemoteDashboardBackgroundInitFn = async (
 ) => {
   // TODO: Implement background functionality or remove if unecessary
   if (dashboardId) {
-    const response = await interops.defaultIotaboardClient.getDashboard(dashboardId);
+    const response = await interops.defaultIotaboardClient.getDashboard(
+      dashboardId
+    );
     if (response.statusCode == 200) {
       const dashboard = response.data;
       if (!dashboard) {
@@ -20,13 +22,16 @@ const backgroundInit: RemoteDashboardBackgroundInitFn = async (
     }
   }
   if (assetId) {
-    const response = await interops.defaultIotaboardClient.getThisUserAssetAccessPermission(assetId);
+    const response =
+      await interops.defaultIotaboardClient.getThisUserAssetAccessPermission(
+        assetId
+      );
     if (response.statusCode == 200) {
       const permission = response.data;
       if (!permission) {
         return;
       }
-      
+
       // Do something in the background
       // consume permission
     }
