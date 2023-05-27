@@ -94,8 +94,8 @@ defaultIotaboardClient
           // Execute background operations for IoT dashboard, if any
           if (DevelopmentEnv.dashboardDetails?.dashboardId) {
             backgroundInit(
-              DevelopmentEnv.dashboardDetails.dashboardId,
-              interops
+              interops,
+              DevelopmentEnv.dashboardDetails.dashboardId
             );
           }
 
@@ -106,9 +106,7 @@ defaultIotaboardClient
               : "main.js";
 
           // TODO: specify props type definition for type safety
-          const Component = (
-            props: RemoteDashboardProps
-          ) =>
+          const Component = (props: RemoteDashboardProps) =>
             process.env.NODE_ENV === "development" ? (
               <LocalComponent {...(props as any)} />
             ) : (
@@ -136,9 +134,7 @@ defaultIotaboardClient
                             </IonTitle>
                           </IonToolbar>
                         </IonHeader>
-                        <Component
-                          {...DevelopmentEnv.dashboardDetails}
-                        />
+                        <Component {...DevelopmentEnv.dashboardDetails} />
                       </IonContent>
                     </IonPage>
                   </Route>
