@@ -2,15 +2,11 @@ import type {
   RegisteredInterops,
   RemoteDashboardBackgroundInitFn
 } from "../../../../src/services/remote-dashboard-interop";
-const backgroundInit: RemoteDashboardBackgroundInitFn = async (
-  interops: RegisteredInterops,
-  dashboardId?: string,
-  assetId?: string
-) => {
+const backgroundInit: RemoteDashboardBackgroundInitFn = async options => {
   // TODO: Implement background functionality or remove if unecessary
-  if (dashboardId) {
-    const response = await interops.defaultIotaboardClient.getDashboard(
-      dashboardId
+  if (options.dashboardId) {
+    const response = await options.interops.defaultIotaboardClient.getDashboard(
+      options.dashboardId
     );
     if (response.statusCode == 200) {
       const dashboard = response.data;
@@ -21,10 +17,10 @@ const backgroundInit: RemoteDashboardBackgroundInitFn = async (
       // Do something in the background
     }
   }
-  if (assetId) {
+  if (options.assetId) {
     const response =
-      await interops.defaultIotaboardClient.getThisUserAssetAccessPermission(
-        assetId
+      await options.interops.defaultIotaboardClient.getThisUserAssetAccessPermission(
+        options.assetId
       );
     if (response.statusCode == 200) {
       const permission = response.data;
