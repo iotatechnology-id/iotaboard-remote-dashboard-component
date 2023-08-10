@@ -93,10 +93,10 @@ defaultIotaboardClient
 
           // Execute background operations for IoT dashboard, if any
           if (DevelopmentEnv.dashboardDetails?.dashboardId) {
-            backgroundInit(
+            backgroundInit({
               interops,
-              DevelopmentEnv.dashboardDetails.dashboardId
-            );
+              dashboardId: DevelopmentEnv.dashboardDetails.dashboardId
+            });
           }
 
           // different paths for localhost vs s3
